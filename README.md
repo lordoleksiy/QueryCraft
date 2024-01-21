@@ -15,14 +15,30 @@ QueryCraft is a powerful library designed to seamlessly integrate JSON-based fil
 ## Example Usage
 
 ```csharp
-// Initialize QueryCraft with your JSON filter
-var queryCraft = new QueryCraft(jsonFilter);
+// Get filter operators in type Dictionary<string, object> from body:
+[HttpPost]
+public IActionResult TestMethod([FromBody] Dictionary<string, object> filterBody)
+{
+    try
+    {
+        var filterService = new FilterService<YourEntity>(); // or using di
 
-// Convert the JSON filter to a LINQ expression
-Expression<Func<T, bool>> filterExpression = queryCraft.BuildExpression();
-
-// Use the filter expression in your LINQ query
-var filteredResults = dbContext.YourEntity.Where(filterExpression).ToList();
+        // Initialize QueryCraft with your JSON filter
+        var operator = filterService.ParseFilter(filterBody);
+        
+        // Convert the JSON filter to a LINQ expression
+        var filterExpression = operator.GetPredicate<YourEntity>();
+        
+        // Use the filter expression in your LINQ query
+        var filteredResults = dbContext.YourEntity.Where(filterExpression).ToList();
+        return // your return
+    }
+    catch (Exception ex)
+    {
+        // add try catch to catch if there are invalid fields in request
+    }
+}
+```
 
 ## Getting Started
 
