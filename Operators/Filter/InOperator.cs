@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Linq.Expressions;
 using QueryCraft.Extensions;
+using QueryCraft.Interfaces;
+using QueryCraft.Operators;
 
 namespace QueryCraft.Operators.Filter
 {
     public class InOperator : FilterOperator
     {
-        public InOperator(ParameterExpression type, string fieldName, string values) : base(type, fieldName)
+        public InOperator(ParameterExpression type, string fieldName, string values, ITypeConverter converter) : base(type, fieldName)
         {
-            var method = typeof(TypeExtensions).GetMethod("GetTypedList").MakeGenericMethod(Property.Type);
-            Value = Expression.Constant(method.Invoke(null, new object[] { values }));
+            Value = Expression.Constant(converter.GetTypedList(type.Type, values));
         }
 
         public override Expression<Func<T, bool>> GetPredicate<T>()

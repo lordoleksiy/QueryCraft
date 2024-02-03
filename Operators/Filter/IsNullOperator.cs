@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq.Expressions;
+using QueryCraft.Interfaces;
 
 namespace QueryCraft.Operators.Filter
 {
@@ -7,17 +8,13 @@ namespace QueryCraft.Operators.Filter
     {
         private readonly bool _isNull;
 
-        public IsNullOperator(ParameterExpression type, string fieldName, string isNull) : base(type, fieldName)
+        public IsNullOperator(ParameterExpression type, string fieldName, string isNull, ITypeConverter converter) : base(type, fieldName, isNull, converter)
         {
-            if (!bool.TryParse(isNull, out _isNull))
-            {
-                _isNull = true;
-            }
         }
 
         public override Expression<Func<T, bool>> GetPredicate<T>()
         {
-            Expression body = _isNull ? 
+            Expression body = _isNull ?
                 Expression.Equal(Property, Expression.Constant(null, typeof(object))) :
                 Expression.NotEqual(Property, Expression.Constant(null, typeof(object)));
 

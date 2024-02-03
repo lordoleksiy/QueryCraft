@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq.Expressions;
+using QueryCraft.Operators;
 
 namespace QueryCraft.Operators.Logical
 {

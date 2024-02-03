@@ -27,23 +27,23 @@ namespace QueryCraft.MVC
         {
             if (options != null && options.ConverterTypes !=  null)
             {
-                services.AddTransient<ITypeConverter>(opt => new TypeConverter(options.ConverterTypes));
+                services.AddScoped<ITypeConverter>(opt => new TypeConverter(options.ConverterTypes));
             }
             else 
             {
-                services.AddTransient<ITypeConverter, TypeConverter>();
+                services.AddScoped<ITypeConverter, TypeConverter>();
             }
         }
 
-        private static void RegisterOperatorConverter(this IServiceCollection services, QueryCraftOptions options)
+        public static void RegisterOperatorConverter(this IServiceCollection services, QueryCraftOptions options)
         {
             if (options != null && options.ConverterOperators != null)
             {
-                services.AddTransient<IOperatorConverter>(opt => new OperatorConverter(options.ConverterOperators));
+                services.AddScoped<IOperatorConverter>(opt => new OperatorConverter(opt.GetRequiredService<ITypeConverter>(), options.ConverterOperators));
             }
             else
             {
-                services.AddTransient<IOperatorConverter, OperatorConverter>();
+                services.AddScoped<IOperatorConverter, OperatorConverter>();
             }
         }
     }

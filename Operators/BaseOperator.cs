@@ -7,6 +7,11 @@ namespace QueryCraft.Operators
     {
         protected BaseOperator(ParameterExpression type)
         {
+            if (type == null)
+            {
+                throw new ArgumentNullException(nameof(type));
+            }
+
             TypeExpression = type;
         }
         public ParameterExpression TypeExpression { get; set; }

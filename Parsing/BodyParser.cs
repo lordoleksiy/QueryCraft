@@ -1,5 +1,4 @@
 ﻿using QueryCraft.Operators.Logical;
-using QueryCraft.Operators;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +6,7 @@ using System.Text.Json;
 using System.Linq.Expressions;
 using QueryCraft.Extensions;
 using QueryCraft.Interfaces;
+using QueryCraft.Operators;
 
 namespace QueryCraft.Parsing
 {
