@@ -34,3 +34,9 @@ jobs:
         -s https://nuget.pkg.github.com/lordoleksiy/index.json
         -k ${{ secrets.NUGET_AUTH_TOKEN }}
 
+     - name: Publish To Nuget
+       run: >
+          dotnet nuget push /home/runner/work/QueryCraft/QueryCraft/QueryCraft.${{ github.ref_name }}.nupkg
+          -s https://api.nuget.org/v3/index.json
+          -k ${{ secrets.NUGET_API_KEY }}
+
