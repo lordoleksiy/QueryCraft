@@ -1,5 +1,4 @@
 ﻿using QueryCraft.Operators.Logical;
-using QueryCraft.Operators;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +6,7 @@ using System.Text.Json;
 using System.Linq.Expressions;
 using QueryCraft.Extensions;
 using QueryCraft.Interfaces;
+using QueryCraft.Operators;
 
 namespace QueryCraft.Parsing
 {
@@ -84,6 +84,10 @@ namespace QueryCraft.Parsing
         public IOperator Parse(Dictionary<string, object> filterBody, Type type)
         {
             _typeExpression = Expression.Parameter(type, type.Name);
+            if ( filterBody == null || !filterBody.Any())
+            {
+                return new TrueOperator(_typeExpression);
+            }
             if (filterBody.Count < 1) return null;
 
             if (filterBody.Count > 1)

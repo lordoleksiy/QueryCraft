@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Linq.Expressions;
+using QueryCraft.Interfaces;
+using QueryCraft.Operators;
 
 namespace QueryCraft.Operators.Filter
 {
     public class LessThanOrEqualOperator : FilterOperator
     {
-        public LessThanOrEqualOperator(ParameterExpression type, string fieldName, string value) : base(type, fieldName, value)
+        public LessThanOrEqualOperator(ParameterExpression type, string fieldName, string value, ITypeConverter converter) : base(type, fieldName, value, converter)
         {
         }
 

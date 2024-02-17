@@ -1,14 +1,13 @@
-﻿using QueryCraft.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
+using System.Text;
 
-namespace QueryCraft.TypeConversations
+namespace QueryCraft.Convertors
 {
-    public class TypeConverter: ITypeConverter
+    internal class GenericTypeConverter
     {
-        public TypeConverter() { }
-        public TypeConverter(Dictionary<Type, Func<string, object>> options) 
+        public GenericTypeConverter() { }
+        public GenericTypeConverter(Dictionary<Type, Func<string, object>> options)
         {
             foreach (var key in options.Keys)
             {
@@ -36,38 +35,36 @@ namespace QueryCraft.TypeConversations
             { typeof(Guid), value => Guid.Parse(value) },
             { typeof(Guid?), value => string.IsNullOrEmpty(value) ? (Guid?)null : Guid.Parse(value) }
         };
-
-        public object GetTypedValue(string value, Type type)
+        public T GetTypedValue<T>(string value, Type type = null)
         {
+            type = type ?? typeof(T);
             if (Converters.TryGetValue(type, out var converter))
             {
-                return converter.DynamicInvoke(value);
+                return (T)converter(value);
             }
-
-            return Convert.ChangeType(value, type);
+            return (T)Convert.ChangeType(value, type);
         }
 
-        public Expression GetTypedValueExpression(string value, Type type) => Expression.Constant(GetTypedValue(value, type));
-
-        public List<object> GetTypedList(Type type, string value)
+        public List<T> GetTypedList<T>(string value)
         {
             var elements = value.Trim('[', ']').Split(',');
-            var list = new List<object>();
+            var list = new List<T>();
             foreach (var element in elements)
             {
-                list.Add(GetTypedValue(element, type));
+                list.Add(GetTypedValue<T>(element));
             }
             return list;
         }
 
-        public Array GetTypedArray(Type type, string value)
+        public T[] GetTypedArray<T>(string value)
         {
             var elements = value.Trim('[', ']').Split(',');
-            Array array = Array.CreateInstance(type, elements.Length);
+            T[] array = new T[elements.Length];
 
             for (int i = 0; i < elements.Length; i++)
             {
-                array.SetValue(GetTypedValue(elements[i], type), i);
+
+                array[i] = GetTypedValue<T>(elements[i]);
             }
             return array;
         }

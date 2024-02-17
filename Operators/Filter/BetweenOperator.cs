@@ -1,4 +1,6 @@
 ﻿using QueryCraft.Extensions;
+using QueryCraft.Interfaces;
+using QueryCraft.Operators;
 using System;
 using System.Linq.Expressions;
 
@@ -8,10 +10,14 @@ namespace QueryCraft.Operators.Filter
     {
         private readonly object from;
         private readonly object to;
-        public BetweenOperator(ParameterExpression type, string fieldName, string value) : base(type, fieldName)
+        public BetweenOperator(ParameterExpression type, string fieldName, string value, ITypeConverter converter) : base(type, fieldName)
         {
-            var method = typeof(TypeExtensions).GetMethod("GetTypedTuple").MakeGenericMethod(Property.Type);
-            var array = (Array)method.Invoke(null, new object[] { value });
+            var array = converter.GetTypedArray(Property.Type, value);
+            if (array.Length != 2)
+            {
+                throw new ArgumentException("The value string should represent an array with exactly two elements.", nameof(value));
+            }
+
             from = array.GetValue(0);
             to = array.GetValue(1);
         }
