@@ -15,31 +15,35 @@ QueryCraft is a powerful library designed to seamlessly integrate JSON-based fil
 ## Example Usage
 
 ```csharp
-// Get filter operators in type Dictionary<string, object> from body:
-[HttpPost]
-public IActionResult TestMethod([FromBody] Dictionary<string, object> filterBody)
+[ApiController]
+[Route("[controller]")]
+public class ProductController : ControllerBase
 {
-    try
-    {
-        var filterService = new FilterService<YourEntity>(); // or using di
+    public QueryCraftContext _dbContext;
+    private IParser _parser;
 
-        // Initialize QueryCraft with your JSON filter
-        var operator = filterService.ParseFilter(filterBody);
-        
-        // Convert the JSON filter to a LINQ expression
-        var filterExpression = operator.GetPredicate<YourEntity>();
-        
-        // Use the filter expression in your LINQ query
-        var filteredResults = dbContext.YourEntity.Where(filterExpression).ToList();
-        return // your return
-    }
-    catch (Exception ex)
+    public ProductController(QueryCraftContext dbContext, IParser parser)
     {
-        // add try catch to catch if there are invalid fields in request
+        _parser = parser;
+        _dbContext = dbContext;
+    }
+
+    [HttpPost(Name = "GetProducts")]
+    public IActionResult Get(Dictionary<string, object> model)
+    {
+        try
+        {
+            var operand = _parser.Parse(model, typeof(Product));
+            return Ok(_dbContext.Products.Where(operand.GetPredicate<Product>()));
+        }
+        catch(Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 }
 ```
-
+More you can find at SampleApp: link will be there very soon
 ## Getting Started
 
 To get started with QueryCraft, simply install the package from NuGet and follow the documentation provided in the repository. Sample code and comprehensive examples are available to guide you through the integration process.
