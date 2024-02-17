@@ -12,42 +12,59 @@ QueryCraft is a powerful library designed to seamlessly integrate JSON-based fil
   
 - **Pagination and Sorting (Future Feature):** While currently focused on filtering, QueryCraft is designed with extensibility in mind and will soon support pagination and sorting, providing a comprehensive solution for querying and manipulating data.
 
-## Example Usage
+# Getting Started with QueryCraft
 
-```csharp
-[ApiController]
-[Route("[controller]")]
-public class ProductController : ControllerBase
-{
-    public QueryCraftContext _dbContext;
-    private IParser _parser;
+To get started with QueryCraft, install the NuGet package in your C# project. To do this you can find it on nuget or using the following command:
 
-    public ProductController(QueryCraftContext dbContext, IParser parser)
-    {
-        _parser = parser;
-        _dbContext = dbContext;
-    }
-
-    [HttpPost(Name = "GetProducts")]
-    public IActionResult Get(Dictionary<string, object> model)
-    {
-        try
-        {
-            var operand = _parser.Parse(model, typeof(Product));
-            return Ok(_dbContext.Products.Where(operand.GetPredicate<Product>()));
-        }
-        catch(Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
-    }
-}
+```bash
+dotnet add package QueryCraft
 ```
-More you can find at SampleApp: link will be there very soon
-## Getting Started
+Then register it using di:
+```csharp
+builder.Services.RegisterQueryCraft(opt =>
+{
+    // you can add here your custom configs
+});
+```
+Now, you can use it in your controllers or services:
+```csharp
+using Microsoft.AspNetCore.Mvc;
+using QueryCraft.Interfaces;
+using QueryCraft.SampleApp.Data;
+using QueryCraft.SampleApp.Models;
 
-To get started with QueryCraft, simply install the package from NuGet and follow the documentation provided in the repository. Sample code and comprehensive examples are available to guide you through the integration process.
+namespace QueryCraft.SampleApp.Controllers
+{
+    [ApiController]
+    [Route("[controller]")]
+    public class ProductController : ControllerBase
+    {
+        public QueryCraftContext _dbContext;
+        private IParser _parser;
 
+        public ProductController(QueryCraftContext dbContext, IParser parser)
+        {
+            _parser = parser;
+            _dbContext = dbContext;
+        }
+
+        [HttpPost(Name = "GetProducts")]
+        public IActionResult Get(Dictionary<string, object> model)
+        {
+            try
+            {
+                var operand = _parser.Parse(model, typeof(Product));
+                return Ok(_dbContext.Products.Where(operand.GetPredicate<Product>()));
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+    }
+```
+## Examples
+Example of web api project that uses this package you can find here: https://github.com/lordoleksiy/QueryCraft.SampleApp
 ## Contributions and Feedback
 
 We welcome contributions and feedback from the community to improve QueryCraft and make it even more powerful and versatile. If you encounter any issues, have ideas for improvements, or want to contribute to the project, please feel free to open an issue or submit a pull request on GitHub.
