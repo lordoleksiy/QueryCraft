@@ -29,12 +29,11 @@ namespace QueryCraft.Operators.Logical
                 else
                 {
                     var nextPredicate = op.GetPredicate<T>();
-                    var paramExpr = Expression.Parameter(typeof(T));
                     var body = Expression.OrElse(
-                        Expression.Invoke(combinedPredicate, paramExpr),
-                        Expression.Invoke(nextPredicate, paramExpr)
+                        Expression.Invoke(combinedPredicate, TypeExpression),
+                        Expression.Invoke(nextPredicate, TypeExpression)
                     );
-                    combinedPredicate = Expression.Lambda<Func<T, bool>>(body, paramExpr);
+                    combinedPredicate = Expression.Lambda<Func<T, bool>>(body, TypeExpression);
                 }
             }
 

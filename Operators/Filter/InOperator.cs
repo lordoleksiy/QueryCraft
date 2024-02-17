@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Linq.Expressions;
-using QueryCraft.Extensions;
 using QueryCraft.Interfaces;
-using QueryCraft.Operators;
 
 namespace QueryCraft.Operators.Filter
 {
@@ -10,7 +8,7 @@ namespace QueryCraft.Operators.Filter
     {
         public InOperator(ParameterExpression type, string fieldName, string values, ITypeConverter converter) : base(type, fieldName)
         {
-            Value = Expression.Constant(converter.GetTypedList(type.Type, values));
+            Value = Expression.Constant(converter.GetTypedList(Property.Type, values));
         }
 
         public override Expression<Func<T, bool>> GetPredicate<T>()

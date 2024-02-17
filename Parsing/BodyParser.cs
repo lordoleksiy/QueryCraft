@@ -84,6 +84,10 @@ namespace QueryCraft.Parsing
         public IOperator Parse(Dictionary<string, object> filterBody, Type type)
         {
             _typeExpression = Expression.Parameter(type, type.Name);
+            if ( filterBody == null || !filterBody.Any())
+            {
+                return new TrueOperator(_typeExpression);
+            }
             if (filterBody.Count < 1) return null;
 
             if (filterBody.Count > 1)

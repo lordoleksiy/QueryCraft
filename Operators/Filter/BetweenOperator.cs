@@ -12,7 +12,7 @@ namespace QueryCraft.Operators.Filter
         private readonly object to;
         public BetweenOperator(ParameterExpression type, string fieldName, string value, ITypeConverter converter) : base(type, fieldName)
         {
-            var array = converter.GetTypedArray(type.Type, value);
+            var array = converter.GetTypedArray(Property.Type, value);
             if (array.Length != 2)
             {
                 throw new ArgumentException("The value string should represent an array with exactly two elements.", nameof(value));

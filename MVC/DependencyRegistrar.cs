@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using QueryCraft.Convertors;
 using QueryCraft.Interfaces;
+using QueryCraft.Parsing;
 using QueryCraft.TypeConversations;
 using System;
 
@@ -20,6 +21,7 @@ namespace QueryCraft.MVC
 
             RegisterTypeConverter(services, options);
             RegisterOperatorConverter(services, options);
+            services.AddScoped<IParser, BodyParser>();
             return services;
         }
 
@@ -35,7 +37,7 @@ namespace QueryCraft.MVC
             }
         }
 
-        public static void RegisterOperatorConverter(this IServiceCollection services, QueryCraftOptions options)
+        private static void RegisterOperatorConverter(this IServiceCollection services, QueryCraftOptions options)
         {
             if (options != null && options.ConverterOperators != null)
             {

@@ -47,7 +47,8 @@ namespace QueryCraft.Convertors
             { "startswith", (type, fieldName, value, typeConverter) => new StartsWithOperator(type, fieldName, value, typeConverter) },
             { "endswith", (type, fieldName, value, typeConverter) => new EndsWithOperator(type, fieldName, value, typeConverter) },
             { "between", (type, fieldName, value, typeConverter) => new BetweenOperator(type, fieldName, value, typeConverter) },
-            { "isnull", (type, fieldName, value, typeConverter) => new IsNullOperator(type, fieldName, value, typeConverter) }
+            { "isnull", (type, fieldName, value, typeConverter) => new IsNullOperator(type, fieldName, value, typeConverter) },
+            { "contains", (type, fieldName, value, typeConverter) => new IsNullOperator(type, fieldName, value, typeConverter) },
         };
 
         public FilterOperator ConvertToFilterOperator(ParameterExpression type, string operat, string fieldName, string value)
