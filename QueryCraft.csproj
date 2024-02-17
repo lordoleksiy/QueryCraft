@@ -1,14 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-	  <PackageId>QueryCraft</PackageId>
+    <TargetFramework>netstandard2.1</TargetFramework>
 	  <Version>0.0.1</Version>
 	  <Authors>lordoleksiy</Authors>
-	  <PackageDescription>
-		  QueryCraft is a powerful library designed to seamlessly integrate JSON-based filter conditions into LINQ queries in your C# applications. With QueryCraft, you can easily transform complex filter criteria expressed in JSON format into expressive LINQ expressions with just a few lines of code.
-	  </PackageDescription>
-	  <RepositoryUrl>https://github.com/rskhan167/NugetDemo</RepositoryUrl>
+	  <RepositoryUrl>https://github.com/lordoleksiy/QueryCraft</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
