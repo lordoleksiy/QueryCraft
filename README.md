@@ -65,6 +65,8 @@ namespace QueryCraft.SampleApp.Controllers
 ```
 ## Examples
 Example of web api project that uses this package you can find here: https://github.com/lordoleksiy/QueryCraft.SampleApp
+
+Also, possible operators and examples of request bodies you can find here: https://github.com/lordoleksiy/QueryCraft/blob/main/Operators.md
 ## Contributions and Feedback
 
 We welcome contributions and feedback from the community to improve QueryCraft and make it even more powerful and versatile. If you encounter any issues, have ideas for improvements, or want to contribute to the project, please feel free to open an issue or submit a pull request on GitHub.
