@@ -5,6 +5,8 @@
 	  <Version>0.0.1</Version>
 	  <Authors>lordoleksiy</Authors>
 	  <RepositoryUrl>https://github.com/lordoleksiy/QueryCraft</RepositoryUrl>
+	  <PackageTags>Filter;Page;Filtering;Linq</PackageTags>
+	  <Description>QueryCraft enables seamless transformation of JSON-based filter conditions into expressive LINQ queries in C# applications. Streamline complex filtering logic with a clear and flexible JSON format. Dynamic expression building facilitates runtime query adaptation, and extensive operator support ensures easy representation of diverse filtering conditions. Elevate your C# data querying and manipulation with QueryCraft.</Description>
   </PropertyGroup>
 
   <ItemGroup>
